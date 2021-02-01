@@ -7,6 +7,7 @@
 /system_root   ext4    /dev/block/mapper/system 	flags=display="System"
 /vendor 	   ext4    /dev/block/mapper/vendor 	flags=display="Vendor"
 /product 	   ext4    /dev/block/mapper/product 	flags=display="Product"
+/odm           ext4    /dev/block/mapper/odm        flags=display="Odm"
 
 /super_image   emmc    /dev/block/bootdevice/by-name/super                       flags=backup=1;display="Super"
 /metadata      ext4    /dev/block/bootdevice/by-name/metadata                    flags=display="Metadata";backup=1;wrappedkey
