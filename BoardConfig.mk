@@ -34,18 +34,32 @@ TARGET_2ND_CPU_VARIANT := cortex-a73
 ENABLE_CPUSETS := true
 ENABLE_SCHEDBOOST := true
 
-#Bootloader
-
+# Bootloader
+PRODUCT_PLATFORM := sm6150
+TARGET_BOOTLOADER_BOARD_NAME := sm6150
+TARGET_NO_BOOTLOADER := true
+TARGET_USES_UEFI := true
 
 # Platform
 TARGET_BOARD_PLATFORM := sm6150
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno650
-#QCOM_BOARD_PLATFORMS += sm6150
 #TARGET_USES_HARDWARE_QCOM_BOOTCTRL := true
 QCOM_BOARD_PLATFORMS += $(TARGET_BOARD_PLATFORM)
 
 # Kernel
-BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 swiotlb=1 androidboot.usbcontroller=a600000.dwc3 earlycon=msm_geni_serial,0x880000 androidboot.selinux=permissive androidboot.usbconfigfs=true
+BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 \
+		androidboot.hardware=qcom \
+		androidboot.console=ttyMSM0 \
+		androidboot.memcg=1 \
+		lpm_levels.sleep_disabled=1 \
+		video=vfb:640x400,bpp=32,memsize=3072000 \
+		msm_rtb.filter=0x237 \
+		service_locator.enable=1 \
+		swiotlb=1 \
+		androidboot.usbcontroller=a600000.dwc3 \
+		earlycon=msm_geni_serial,0x880000 \
+		androidboot.selinux=permissive \
+		androidboot.usbconfigfs=true
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image.gz
 TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img
 BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
@@ -114,13 +128,15 @@ TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_CRYPTO_FBE := true
 TW_INCLUDE_FBE_METADATA_DECRYPT := true
 BOARD_USES_METADATA_PARTITION := true
-#BOARD_USES_QCOM_FBE_DECRYPTION := true
+BOARD_USES_QCOM_FBE_DECRYPTION := true
 VENDOR_SECURITY_PATCH := 2099-12-31
 # Hack: prevent anti rollback
 PLATFORM_SECURITY_PATCH := 2099-12-31
 PLATFORM_VERSION := 16.1.0
 
 # TWRP Configuration
+TARGET_RECOVERY_QCOM_RTC_FIX := true
+RECOVERY_SDCARD_ON_DATA := true
 TW_THEME := portrait_hdpi
 TW_EXTRA_LANGUAGES := true
 TW_SCREEN_BLANK_ON_BOOT := true
