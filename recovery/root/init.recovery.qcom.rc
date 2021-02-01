@@ -32,3 +32,14 @@ on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
 
+on init
+    chmod 0777 /init.recovery.qcom.sh
+    start init-recovery-qcom-sh
+
+service init-recovery-qcom-sh /init.recovery.qcom.sh
+    user root
+    group root
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
+
