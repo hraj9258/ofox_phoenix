@@ -30,7 +30,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
 # use twrp-common for decryption
-BOARD_USES_QCOM_FBE_DECRYPTION := true
+#BOARD_USES_QCOM_FBE_DECRYPTION := true
 
 # fastbootd
 PRODUCT_PACKAGES += \
