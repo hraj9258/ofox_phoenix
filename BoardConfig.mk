@@ -60,6 +60,7 @@ BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 \
 		earlycon=msm_geni_serial,0x880000 \
 		androidboot.selinux=permissive \
 		androidboot.usbconfigfs=true
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image.gz
 TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img
 BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
