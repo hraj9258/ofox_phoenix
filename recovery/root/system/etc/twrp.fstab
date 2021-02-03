@@ -4,21 +4,25 @@
 
 # mount point  fstype  device                             device2                flags
 
-/system_root   ext4    /dev/block/mapper/system 	flags=display="System"
-/vendor 	   ext4    /dev/block/mapper/vendor 	flags=display="Vendor"
-/product 	   ext4    /dev/block/mapper/product 	flags=display="Product"
-/odm           ext4    /dev/block/mapper/odm        flags=display="Odm"
+/system_root 	ext4    /dev/block/mapper/system 	flags=display="System"
+/vendor 	ext4    /dev/block/mapper/vendor 	flags=display="Vendor"
+/product 	ext4    /dev/block/mapper/product 	flags=display="Product"
 
-/super_image   emmc    /dev/block/bootdevice/by-name/super                       flags=backup=1;display="Super"
-/metadata      ext4    /dev/block/bootdevice/by-name/metadata                    flags=display="Metadata";backup=1;wrappedkey
+odm		/odm		    ext4		display="Odm";logical
+
+/cache         ext4    /dev/block/bootdevice/by-name/cache
 /data          f2fs    /dev/block/bootdevice/by-name/userdata                    flags=fileencryption=ice:aes-256-cts;wrappedkey;keydirectory=/metadata/vold/metadata_encryption
 /boot          emmc    /dev/block/bootdevice/by-name/boot
-/storage       ext4    /data/media/0                  		     		         flags=display="Internal Storage";usermrf;backup=1;fsflags="bind";removable
+/storage        ext4    /data/media/0                  		     		  flags=display="Internal Storage";usermrf;backup=1;fsflags="bind";removable
 /dtbo          emmc    /dev/block/bootdevice/by-name/dtbo                        flags=backup=1;display="Dtbo";flashimg=1
-/cache         ext4    /dev/block/bootdevice/by-name/cache                       flags=display="Cache"
 /recovery      emmc    /dev/block/bootdevice/by-name/recovery                    flags=backup=1
-/firmware      vfat    /dev/block/bootdevice/by-name/modem                       flags=display="Firmware"
-/cust          ext4    /dev/block/bootdevice/by-name/cust                        flags=display="Cust"
+
+/firmware      	vfat    /dev/block/bootdevice/by-name/modem                       flags=display="Firmware";backup=0
+/firmware_image emmc    /dev/block/bootdevice/by-name/modem        		  flags=display="Firmware_Image";flashimg=1;backup=1
+/metadata       ext4    /dev/block/bootdevice/by-name/metadata                    flags=display="Metadata";backup=0
+/metadata_image emmc    /dev/block/bootdevice/by-name/metadata     		  flags=display="Metadata_Image";backup=1;flashimg=1
+/cust          	ext4    /dev/block/bootdevice/by-name/cust                        flags=display="Cust";backup=0
+/cust_image     emmc    /dev/block/bootdevice/by-name/cust         		  flags=display="Cust_Image";backup=1;flashimg=1
 /misc          emmc    /dev/block/bootdevice/by-name/misc
 /modem         emmc    /dev/block/bootdevice/by-name/modem                       flags=backup=1;display="Modem"
 /bluetooth     emmc    /dev/block/bootdevice/by-name/bluetooth                   flags=backup=1;subpartitionof=/modem
@@ -31,5 +35,6 @@
 /persist_image emmc    /dev/block/bootdevice/by-name/persist                     flags=display="Persist";flashimg=1
 
 # Removable storage
-/usb_otg       vfat    /dev/block/sdg1                    /dev/block/sdg         flags=fsflags=utf8;display="USB-Storage";storage;wipeingui;removable
-/external_sd   vfat    /dev/block/mmcblk0p1               /dev/block/mmcblk0     flags=display="MicroSD";storage;wipeingui;removable;
+/usb_otg       	vfat    /dev/block/sdg1                 /dev/block/sdg         	  flags=fsflags=utf8;display="USB-Storage";storage;wipeingui;removable
+/sdcard1   	vfat   	/dev/block/mmcblk0p1  		/dev/block/mmcblk0   	  flags=display="MicroSD";storage;wipeingui;removable
+#
