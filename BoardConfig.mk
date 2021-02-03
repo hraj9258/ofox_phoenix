@@ -58,7 +58,6 @@ BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 \
 		swiotlb=1 \
 		androidboot.usbcontroller=a600000.dwc3 \
 		earlycon=msm_geni_serial,0x880000 \
-		androidboot.selinux=permissive \
 		androidboot.usbconfigfs=true
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive androidboot.init_fatal_reboot_target=recovery
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image.gz
@@ -113,8 +112,8 @@ BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
 
 # File systems
-TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
+#TARGET_USERIMAGES_USE_EXT4 := true
+#TARGET_USERIMAGES_USE_F2FS := true
 
 # Workaround for error copying vendor files to recovery ramdisk
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
@@ -134,6 +133,9 @@ VENDOR_SECURITY_PATCH := 2099-12-31
 # Hack: prevent anti rollback
 PLATFORM_SECURITY_PATCH := 2099-12-31
 PLATFORM_VERSION := 16.1.0
+
+# CUSTOM_LUN_FILE
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.0/lun.%d/file
 
 # TWRP Configuration
 TARGET_RECOVERY_QCOM_RTC_FIX := true
