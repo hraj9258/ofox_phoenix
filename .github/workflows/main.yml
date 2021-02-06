@@ -1,4 +1,4 @@
-name: Building recovery
+name: Building OrangeFox recovery
 
 on:
 #  release:
@@ -16,9 +16,8 @@ on:
     types: [started]
 
 env:
-  MANIFEST: git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-10.0
   DEVICE: phoenix
-  DT_LINK: https://github.com/hraj9258/twrp_phoenix -b test
+  DT_LINK: https://github.com/hraj9258/ofox_phoenix -b test1
   DT_PATH: device/xiaomi/phoenix
   CHAT_ID: ${{ secrets.CHAT_ID }}
   BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
@@ -43,30 +42,32 @@ jobs:
             sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php* 
             sudo -E apt-get clean 
             sudo -E apt-get -qq update
-            sudo -E apt-get -qq install bc build-essential zip curl libstdc++6 git wget python gcc clang libssl-dev repo rsync flex curl  bison aria2
-            sudo curl --create-dirs -L -o /usr/local/bin/repo -O -L https://storage.googleapis.com/git-repo-downloads/repo
-            sudo chmod a+rx /usr/local/bin/repo
+            sudo apt install git aria2 -y
+            git clone https://gitlab.com/OrangeFox/misc/scripts &&cd scripts
+            sudo bash setup/android_build_env.sh
+            sudo bash setup/install_android_sdk.sh
             
-       - name: Sync recovery source and device tree
+       - name: Sync OrangeFox recovery source and device tree
          run: |
-             mkdir work
-             cd work
-             repo init -u $MANIFEST --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips
-             repo sync -j4
-             git clone $DT_LINK --depth=1 --single-branch $DT_PATH
+             mkdir ~/OrangeFox_10
+             cd ~/OrangeFox_10
+             git clone https://gitlab.com/hraj9258/sync.git
+             cd ~/OrangeFox_10/sync
+             echo 'y' | ./get_fox_10.sh ~/OrangeFox_10/fox_10.0
+             cd ~/OrangeFox_10/fox_10.0
+             git clone $DT_LINK $DT_PATH
              
-       - name: Building TWRP
+       - name: Building OrangeFox Recovery
          run: |
-              cd work
-              . build/envsetup.sh &&lunch omni_$DEVICE-eng &&export ALLOW_MISSING_DEPENDENCIES=true && mka $TARGET
-             
+              cd ~/OrangeFox_10/fox_10.0
+              source build/envsetup.sh &&export ALLOW_MISSING_DEPENDENCIES=true &&export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1 &&export LC_ALL="C"
+              lunch omni_phoenix-eng &&mka recoveryimage
+
        - name: Uploading recovery image
          run: |
               cd work/out/target/product/$DEVICE
-              sudo zip -r9 TWRP-phoenix.zip recovery.img
-              ls > ls.txt
-              curl -F chat_id=$CHAT_ID -F document=@ls.txt -F parse_mode=markdown https://api.telegram.org/bot$BOT_TOKEN/sendDocument -F caption="Check it ot @hraj9258"
-              curl -F chat_id=$CHAT_ID -F document=@TWRP-phoenix.zip -F https://api.telegram.org/bot$BOT_TOKEN/sendDocument -F caption="Please test it @facebook6ix9ine"
+              curl -F chat_id=$CHAT_ID -F document=@OrangeFox-Unofficial-phoenix.zip https://api.telegram.org/bot$BOT_TOKEN/sendDocument
               curl -sL https://git.io/file-transfer | sh
-              ./transfer wet TWRP-phoenix.zip
-              ./transfer wet recovery.img
+              ./transfer wet OrangeFox-Unofficial-phoenix.zip
+              ./transfer wet OrangeFox-Unofficial-phoenix.img
+              ./transfer wet *.zip
