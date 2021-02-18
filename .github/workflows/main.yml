@@ -65,7 +65,7 @@ jobs:
 
        - name: Uploading recovery image
          run: |
-              cd work/out/target/product/$DEVICE
+              cd out/target/product/$DEVICE
               curl -F chat_id=$CHAT_ID -F document=@OrangeFox-Unofficial-phoenix.zip https://api.telegram.org/bot$BOT_TOKEN/sendDocument
               curl -sL https://git.io/file-transfer | sh
               ./transfer wet OrangeFox-Unofficial-phoenix.zip
