@@ -19,7 +19,7 @@ env:
   DEVICE: phoenix
   DT_LINK: https://github.com/hraj9258/ofox_phoenix -b test1
   DT_PATH: device/xiaomi/phoenix
-  CHAT_ID: ${{ secrets.CHAT_ID }}
+  CHAT_ID: ${{ secrets.TEST_CHAT_ID }}
   BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
   TARGET: recoveryimage
   TZ: Asia/Kolkata
@@ -67,6 +67,8 @@ jobs:
          run: |
               cd out/target/product/$DEVICE
               curl -F chat_id=$CHAT_ID -F document=@OrangeFox-Unofficial-phoenix.zip https://api.telegram.org/bot$BOT_TOKEN/sendDocument
+              sudo zip -r9 ofox-phoenix.zip recovery.img
+              curl -F chat_id=$CHAT_ID -F document=@ofox-phoenix.zip https://api.telegram.org/bot$BOT_TOKEN/sendDocument
               curl -sL https://git.io/file-transfer | sh
               ./transfer wet OrangeFox-Unofficial-phoenix.zip
               ./transfer wet OrangeFox-Unofficial-phoenix.img
