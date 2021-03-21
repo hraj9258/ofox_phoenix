@@ -1,7 +1,7 @@
 [
   {
-    "remote":      "hraj9258",
-    "repository":  "android_device_qcom_twrp-common",
+    "remote":      "github",
+    "repository":  "hraj9258/android_device_qcom_twrp-common",
     "target_path": "device/qcom/twrp-common",
     "revision":    "android-10"
   }
